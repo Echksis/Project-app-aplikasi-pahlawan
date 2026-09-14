@@ -4,6 +4,10 @@ void main() {
   runApp(const ScoreMatchApp());
 }
 
+// =====================================================
+// APP
+// =====================================================
+
 class ScoreMatchApp extends StatelessWidget {
   const ScoreMatchApp({super.key});
 
@@ -13,7 +17,8 @@ class ScoreMatchApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Score Match',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF0B0D10),
         useMaterial3: true,
       ),
       home: const SettingPage(),
@@ -21,9 +26,9 @@ class ScoreMatchApp extends StatelessWidget {
   }
 }
 
-// ===============================
-// HALAMAN SETTING MAX SCORE
-// ===============================
+// =====================================================
+// SETTING PAGE
+// =====================================================
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -36,13 +41,17 @@ class _SettingPageState extends State<SettingPage> {
   final TextEditingController maxScoreController =
       TextEditingController(text: '21');
 
+  // ===================================================
+  // START GAME
+  // ===================================================
+
   void startGame() {
     int? maxScore = int.tryParse(maxScoreController.text);
 
     if (maxScore == null || maxScore < 1) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Masukkan max score yang valid!'),
+          content: Text('Masukkan skor yang valid'),
         ),
       );
       return;
@@ -51,78 +60,144 @@ class _SettingPageState extends State<SettingPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ScorePage(maxScore: maxScore),
+        builder: (context) => ScorePage(
+          maxScore: maxScore,
+        ),
       ),
     );
   }
 
   @override
+  void dispose() {
+    maxScoreController.dispose();
+    super.dispose();
+  }
+
+  // ===================================================
+  // UI
+  // ===================================================
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Score Match'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'PENGATURAN PERTANDINGAN',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+      backgroundColor: const Color(0xFF0B0D10),
 
-            const SizedBox(height: 40),
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(25),
 
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Maximum Score',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+
+              children: [
+                // LOGO / TITLE
+                const Text(
+                  'SCORE MATCH',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 3,
+                  ),
                 ),
-              ),
-            ),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 45),
 
-            TextField(
-              controller: maxScoreController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Contoh: 21',
-              ),
-            ),
+                // SETTING CARD
+                Container(
+                  width: double.infinity,
 
-            const SizedBox(height: 30),
+                  padding: const EdgeInsets.all(24),
 
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: startGame,
-                child: const Text(
-                  'MULAI PERTANDINGAN',
-                  style: TextStyle(fontSize: 17),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF15181D),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: const Color(0xFF292E35),
+                    ),
+                  ),
+
+                  child: Column(
+                    children: [
+                      const Text(
+                        'MAX SCORE',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                        ),
+                      ),
+
+                      const SizedBox(height: 15),
+
+                      // INPUT MAX SCORE
+                      TextField(
+                        controller: maxScoreController,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color(0xFF0B0D10),
+
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // START BUTTON
+                      SizedBox(
+                        width: double.infinity,
+                        height: 52,
+
+                        child: ElevatedButton(
+                          onPressed: startGame,
+
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFE5B84B),
+                            foregroundColor: Colors.black,
+                            elevation: 0,
+
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+
+                          child: const Text(
+                            'START',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-// ===============================
-// HALAMAN SCOREBOARD
-// ===============================
+// =====================================================
+// SCORE PAGE
+// =====================================================
 
 class ScorePage extends StatefulWidget {
   final int maxScore;
@@ -142,8 +217,14 @@ class _ScorePageState extends State<ScorePage> {
 
   bool gameFinished = false;
 
+  // ===================================================
+  // ADD POINT
+  // ===================================================
+
   void addPoint(int player) {
-    if (gameFinished) return;
+    if (gameFinished) {
+      return;
+    }
 
     setState(() {
       if (player == 1) {
@@ -152,12 +233,17 @@ class _ScorePageState extends State<ScorePage> {
         player2Score++;
       }
 
+      // CHECK WINNER
       if (player1Score >= widget.maxScore ||
           player2Score >= widget.maxScore) {
         gameFinished = true;
       }
     });
   }
+
+  // ===================================================
+  // RESET GAME
+  // ===================================================
 
   void resetGame() {
     setState(() {
@@ -167,6 +253,10 @@ class _ScorePageState extends State<ScorePage> {
     });
   }
 
+  // ===================================================
+  // GET WINNER
+  // ===================================================
+
   String getWinner() {
     if (player1Score >= widget.maxScore) {
       return 'PLAYER 1';
@@ -175,142 +265,414 @@ class _ScorePageState extends State<ScorePage> {
     return 'PLAYER 2';
   }
 
+  // ===================================================
+  // MAIN UI
+  // ===================================================
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF0B0D10),
+
+      // =================================================
+      // APP BAR
+      // =================================================
+
       appBar: AppBar(
-        title: const Text('Scoreboard'),
+        backgroundColor: const Color(0xFF0B0D10),
+
         centerTitle: true,
+
+        // Tombol BACK otomatis muncul
+        title: const Text(
+          'SCORE MATCH',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2,
+          ),
+        ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(20),
+      // =================================================
+      // BODY
+      // =================================================
 
-        child: Column(
-          children: [
-            Text(
-              'Maximum Score: ${widget.maxScore}',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+
+        child: gameFinished
+            ? buildWinnerScreen()
+            : buildScoreboard(),
+      ),
+    );
+  }
+
+  // =====================================================
+  // SCOREBOARD
+  // =====================================================
+
+  Widget buildScoreboard() {
+    return Column(
+      children: [
+        // MAX SCORE
+        Text(
+          'MAX ${widget.maxScore}',
+          style: const TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2,
+          ),
+        ),
+
+        const SizedBox(height: 18),
+
+        // PLAYERS
+        Expanded(
+          child: Row(
+            children: [
+              // =========================================
+              // PLAYER 1
+              // =========================================
+
+              Expanded(
+                child: buildPlayer(
+                  name: 'PLAYER 1',
+
+                  score: player1Score,
+
+                  color: const Color(0xFF3B82F6),
+
+                  onPressed: () => addPoint(1),
+                ),
+              ),
+
+              // =========================================
+              // PEMISAH
+              // =========================================
+
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+
+                child: Text(
+                  ':',
+
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+
+              // =========================================
+              // PLAYER 2
+              // =========================================
+
+              Expanded(
+                child: buildPlayer(
+                  name: 'PLAYER 2',
+
+                  score: player2Score,
+
+                  color: const Color(0xFFEF4444),
+
+                  onPressed: () => addPoint(2),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 15),
+
+        // RESET
+        SizedBox(
+          width: double.infinity,
+          height: 45,
+
+          child: OutlinedButton(
+            onPressed: resetGame,
+
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.grey,
+
+              side: const BorderSide(
+                color: Color(0xFF30343A),
+              ),
+
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
 
-            const SizedBox(height: 40),
+            child: const Text(
+              'RESET',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
-            Row(
+  // =====================================================
+  // WINNER SCREEN
+  // =====================================================
+
+  Widget buildWinnerScreen() {
+    final bool player1Won =
+        player1Score >= widget.maxScore;
+
+    final Color winnerColor = player1Won
+        ? const Color(0xFF3B82F6)
+        : const Color(0xFFEF4444);
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+
+        children: [
+          // TROPHY
+          const Icon(
+            Icons.emoji_events_rounded,
+
+            size: 90,
+
+            color: Color(0xFFE5B84B),
+          ),
+
+          const SizedBox(height: 25),
+
+          // WINNER
+          const Text(
+            'WINNER',
+
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 4,
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          // PLAYER NAME
+          Text(
+            getWinner(),
+
+            style: TextStyle(
+              color: winnerColor,
+              fontSize: 36,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 2,
+            ),
+          ),
+
+          const SizedBox(height: 30),
+
+          // FINAL SCORE
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 35,
+              vertical: 22,
+            ),
+
+            decoration: BoxDecoration(
+              color: const Color(0xFF15181D),
+
+              borderRadius: BorderRadius.circular(10),
+
+              border: Border.all(
+                color: const Color(0xFF292E35),
+              ),
+            ),
+
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+
               children: [
-                // PLAYER 1
-                Expanded(
-                  child: Column(
-                    children: [
-                      const Text(
-                        'PLAYER 1',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                // PLAYER 1 SCORE
+                Text(
+                  '$player1Score',
 
-                      const SizedBox(height: 15),
-
-                      Text(
-                        '$player1Score',
-                        style: const TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 15),
-
-                      ElevatedButton(
-                        onPressed: gameFinished
-                            ? null
-                            : () => addPoint(1),
-                        child: const Text(
-                          '+1',
-                          style: TextStyle(fontSize: 25),
-                        ),
-                      ),
-                    ],
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 48,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
 
-                const Text(
-                  '-',
-                  style: TextStyle(fontSize: 40),
+                // :
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 25,
+                  ),
+
+                  child: Text(
+                    ':',
+
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
 
-                // PLAYER 2
-                Expanded(
-                  child: Column(
-                    children: [
-                      const Text(
-                        'PLAYER 2',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                // PLAYER 2 SCORE
+                Text(
+                  '$player2Score',
 
-                      const SizedBox(height: 15),
-
-                      Text(
-                        '$player2Score',
-                        style: const TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 15),
-
-                      ElevatedButton(
-                        onPressed: gameFinished
-                            ? null
-                            : () => addPoint(2),
-                        child: const Text(
-                          '+1',
-                          style: TextStyle(fontSize: 25),
-                        ),
-                      ),
-                    ],
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 48,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ],
             ),
+          ),
 
-            const SizedBox(height: 50),
+          const SizedBox(height: 45),
 
-            if (gameFinished)
-              Column(
-                children: [
-                  Text(
-                    '🏆 ${getWinner()} MENANG!',
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+          // MAIN LAGI
+          SizedBox(
+            width: 220,
+            height: 52,
 
-                  const SizedBox(height: 20),
+            child: ElevatedButton(
+              onPressed: resetGame,
 
-                  ElevatedButton(
-                    onPressed: resetGame,
-                    child: const Text('MAIN LAGI'),
-                  ),
-                ],
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFE5B84B),
+                foregroundColor: Colors.black,
+                elevation: 0,
+
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
 
-            const Spacer(),
+              child: const Text(
+                'MAIN LAGI',
 
-            OutlinedButton(
-              onPressed: resetGame,
-              child: const Text('RESET SKOR'),
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                ),
+              ),
             ),
-          ],
+          ),
+
+          const SizedBox(height: 10),
+
+          // RESET
+          TextButton(
+            onPressed: resetGame,
+
+            child: const Text(
+              'RESET',
+
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // =====================================================
+  // PLAYER CARD
+  // =====================================================
+
+  Widget buildPlayer({
+    required String name,
+    required int score,
+    required Color color,
+    required VoidCallback onPressed,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+
+      decoration: BoxDecoration(
+        color: const Color(0xFF15181D),
+
+        borderRadius: BorderRadius.circular(10),
+
+        border: Border.all(
+          color: const Color(0xFF292E35),
         ),
+      ),
+
+      child: Column(
+        children: [
+          // PLAYER NAME
+          Text(
+            name,
+
+            style: TextStyle(
+              color: color,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1,
+            ),
+          ),
+
+          const Spacer(),
+
+          // SCORE
+          Text(
+            '$score',
+
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 80,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+
+          const Spacer(),
+
+          // +1 BUTTON
+          SizedBox(
+            width: double.infinity,
+            height: 55,
+
+            child: ElevatedButton(
+              onPressed: onPressed,
+
+              style: ElevatedButton.styleFrom(
+                backgroundColor: color,
+                foregroundColor: Colors.white,
+                elevation: 0,
+
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7),
+                ),
+              ),
+
+              child: const Text(
+                '+1',
+
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
