@@ -1,194 +1,875 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const ScoreMatchApp());
+  runApp(const HeroApp());
 }
 
 // =====================================================
-// APP
+// MODEL DATA PAHLAWAN
 // =====================================================
 
-class ScoreMatchApp extends StatelessWidget {
-  const ScoreMatchApp({super.key});
+class HeroData {
+  final String name;
+  final String image;
+  final String origin;
+  final String lifetime;
+  final String biography;
+
+  const HeroData({
+    required this.name,
+    required this.image,
+    required this.origin,
+    required this.lifetime,
+    required this.biography,
+  });
+}
+
+// =====================================================
+// DATA 15 PAHLAWAN
+// =====================================================
+
+const List<HeroData> heroes = [
+  HeroData(
+    name: 'Ir. Soekarno',
+    image: 'assets/soekarno.jpg',
+    origin: 'Jawa Timur',
+    lifetime: '1901 - 1970',
+    biography:
+        'Ir. Soekarno adalah Proklamator Kemerdekaan Indonesia dan Presiden pertama Republik Indonesia. Beliau berperan penting dalam perjuangan kemerdekaan serta perumusan dasar negara Indonesia.',
+  ),
+
+  HeroData(
+    name: 'Mohammad Hatta',
+    image: 'assets/hatta.jpg',
+    origin: 'Sumatera Barat',
+    lifetime: '1902 - 1980',
+    biography:
+        'Mohammad Hatta adalah Proklamator Kemerdekaan Indonesia dan Wakil Presiden pertama Republik Indonesia. Beliau dikenal sebagai tokoh penting dalam perjuangan kemerdekaan dan pengembangan demokrasi Indonesia.',
+  ),
+
+  HeroData(
+    name: 'Jenderal Sudirman',
+    image: 'assets/sudirman.jpg',
+    origin: 'Jawa Tengah',
+    lifetime: '1916 - 1950',
+    biography:
+        'Jenderal Sudirman merupakan Panglima Besar Tentara Nasional Indonesia. Beliau memimpin perjuangan mempertahankan kemerdekaan Indonesia, termasuk melalui perang gerilya.',
+  ),
+
+  HeroData(
+    name: 'Ki Hajar Dewantara',
+    image: 'assets/ki_hajar.jpg',
+    origin: 'Yogyakarta',
+    lifetime: '1889 - 1959',
+    biography:
+        'Ki Hajar Dewantara adalah tokoh pendidikan nasional Indonesia dan pendiri Perguruan Taman Siswa. Beliau memperjuangkan pendidikan yang dapat diakses oleh masyarakat Indonesia.',
+  ),
+
+  HeroData(
+    name: 'R.A. Kartini',
+    image: 'assets/kartini.jpg',
+    origin: 'Jawa Tengah',
+    lifetime: '1879 - 1904',
+    biography:
+        'R.A. Kartini merupakan tokoh yang memperjuangkan pendidikan dan emansipasi perempuan Indonesia. Pemikiran dan surat-suratnya menjadi inspirasi bagi perkembangan pendidikan perempuan.',
+  ),
+
+  HeroData(
+    name: 'Cut Nyak Dhien',
+    image: 'assets/cut_nyak_dien.jpg',
+    origin: 'Aceh',
+    lifetime: '1848 - 1908',
+    biography:
+        'Cut Nyak Dhien adalah pejuang perempuan dari Aceh yang melawan penjajahan Belanda. Beliau terus berjuang bersama pasukan Aceh dalam perang yang berlangsung selama bertahun-tahun.',
+  ),
+
+  HeroData(
+    name: 'Cut Nyak Meutia',
+    image: 'assets/cut_nyak_meutia.jpg',
+    origin: 'Aceh',
+    lifetime: '1870 - 1910',
+    biography:
+        'Cut Nyak Meutia adalah pahlawan nasional dari Aceh yang berjuang melawan Belanda. Beliau dikenal karena keberanian dan kegigihannya dalam mempertahankan wilayah Aceh.',
+  ),
+
+  HeroData(
+    name: 'Pangeran Diponegoro',
+    image: 'assets/diponegoro.jpg',
+    origin: 'Yogyakarta',
+    lifetime: '1785 - 1855',
+    biography:
+        'Pangeran Diponegoro adalah pemimpin Perang Jawa yang berlangsung pada tahun 1825 hingga 1830. Perjuangannya menjadi salah satu perlawanan besar terhadap pemerintahan kolonial Belanda.',
+  ),
+
+  HeroData(
+    name: 'Pattimura',
+    image: 'assets/pattimura.jpg',
+    origin: 'Maluku',
+    lifetime: '1783 - 1817',
+    biography:
+        'Pattimura atau Thomas Matulessy adalah pejuang dari Maluku yang memimpin perlawanan terhadap Belanda pada tahun 1817. Ia menjadi simbol perjuangan rakyat Maluku.',
+  ),
+
+  HeroData(
+    name: 'Sultan Hasanuddin',
+    image: 'assets/hassanudin.jpg',
+    origin: 'Sulawesi Selatan',
+    lifetime: '1631 - 1670',
+    biography:
+        'Sultan Hasanuddin adalah Sultan Gowa yang terkenal karena perlawanannya terhadap VOC. Karena keberaniannya, beliau mendapat julukan Ayam Jantan dari Timur.',
+  ),
+
+  HeroData(
+    name: 'Tuanku Imam Bonjol',
+    image: 'assets/imam_bonjol.jpg',
+    origin: 'Sumatera Barat',
+    lifetime: '1772 - 1864',
+    biography:
+        'Tuanku Imam Bonjol merupakan pemimpin perjuangan dalam Perang Padri di Sumatera Barat. Beliau memimpin perlawanan terhadap kolonial Belanda dan menjadi salah satu tokoh penting dari Minangkabau.',
+  ),
+
+  HeroData(
+    name: 'Bung Tomo',
+    image: 'assets/bung_tomo.jpg',
+    origin: 'Jawa Timur',
+    lifetime: '1920 - 1981',
+    biography:
+        'Bung Tomo adalah tokoh penting dalam Pertempuran Surabaya tahun 1945. Melalui pidato dan perjuangannya, beliau membangkitkan semangat rakyat Surabaya untuk mempertahankan kemerdekaan.',
+  ),
+
+  HeroData(
+    name: 'Dewi Sartika',
+    image: 'assets/dewi_sartika.jpg',
+    origin: 'Jawa Barat',
+    lifetime: '1884 - 1947',
+    biography:
+        'Dewi Sartika adalah tokoh pendidikan dan pelopor pendidikan bagi perempuan di Indonesia. Beliau mendirikan Sakola Istri yang kemudian berkembang menjadi sekolah bagi kaum perempuan.',
+  ),
+
+  HeroData(
+    name: 'Frans Kaisiepo',
+    image: 'assets/frans_kaisiepo.jpg',
+    origin: 'Papua',
+    lifetime: '1921 - 1979',
+    biography:
+        'Frans Kaisiepo merupakan tokoh perjuangan dari Papua yang berperan dalam mempertahankan integrasi Papua dengan Indonesia. Beliau juga pernah menjadi Gubernur Papua.',
+  ),
+
+  HeroData(
+    name: 'I Gusti Ngurah Rai',
+    image: 'assets/ngurah_rai.jpg',
+    origin: 'Bali',
+    lifetime: '1917 - 1946',
+    biography:
+        'I Gusti Ngurah Rai adalah pejuang kemerdekaan dari Bali dan pemimpin pasukan Ciung Wanara. Beliau memimpin perjuangan melawan Belanda dalam Puputan Margarana.',
+  ),
+];
+
+// =====================================================
+// MAIN APP
+// =====================================================
+
+class HeroApp extends StatelessWidget {
+  const HeroApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Score Match',
+      title: 'Pahlawan Nasional',
+
       theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF0B0D10),
+        brightness: Brightness.light,
+
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF8B0000),
+        ),
+
+        scaffoldBackgroundColor:
+            const Color(0xFFF5F5F5),
+
         useMaterial3: true,
       ),
-      home: const SettingPage(),
+
+      home: const DashboardPage(),
     );
   }
 }
 
 // =====================================================
-// SETTING PAGE
+// DASHBOARD
 // =====================================================
 
-class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
+class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
 
   @override
-  State<SettingPage> createState() => _SettingPageState();
+  State<DashboardPage> createState() =>
+      _DashboardPageState();
 }
 
-class _SettingPageState extends State<SettingPage> {
-  final TextEditingController maxScoreController =
-      TextEditingController(text: '21');
+class _DashboardPageState
+    extends State<DashboardPage> {
+
+  String searchQuery = '';
+
+  String selectedRegion = 'Semua';
 
   // ===================================================
-  // START GAME
+  // DAFTAR FILTER DAERAH
   // ===================================================
 
-  void startGame() {
-    int? maxScore = int.tryParse(maxScoreController.text);
+  final List<String> regions = [
+    'Semua',
+    'Jawa',
+    'Sumatera',
+    'Aceh',
+    'Sulawesi',
+    'Maluku',
+    'Bali',
+    'Papua',
+  ];
 
-    if (maxScore == null || maxScore < 1) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Masukkan skor yang valid'),
-        ),
-      );
-      return;
-    }
+  // ===================================================
+  // FILTER PAHLAWAN
+  // ===================================================
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ScorePage(
-          maxScore: maxScore,
-        ),
-      ),
-    );
+  List<HeroData> get filteredHeroes {
+    final query = searchQuery
+        .trim()
+        .toLowerCase();
+
+    return heroes.where((hero) {
+      // FILTER SEARCH
+      final matchesSearch =
+          query.isEmpty ||
+          hero.name
+              .toLowerCase()
+              .contains(query) ||
+          hero.origin
+              .toLowerCase()
+              .contains(query);
+
+      // FILTER DAERAH
+      bool matchesRegion = true;
+
+      if (selectedRegion != 'Semua') {
+        matchesRegion = hero.origin
+            .toLowerCase()
+            .contains(
+              selectedRegion.toLowerCase(),
+            );
+      }
+
+      return matchesSearch && matchesRegion;
+    }).toList();
   }
 
-  @override
-  void dispose() {
-    maxScoreController.dispose();
-    super.dispose();
-  }
+  // ===================================================
+  // RESET FILTER
+  // ===================================================
 
-  // ===================================================
-  // UI
-  // ===================================================
+  void resetFilter() {
+    setState(() {
+      searchQuery = '';
+      selectedRegion = 'Semua';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final filtered = filteredHeroes;
+
     return Scaffold(
-      backgroundColor: const Color(0xFF0B0D10),
+      appBar: AppBar(
+        backgroundColor:
+            const Color(0xFF8B0000),
 
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(25),
+        foregroundColor:
+            Colors.white,
 
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+        centerTitle: true,
 
-              children: [
-                // LOGO / TITLE
-                const Text(
-                  'SCORE MATCH',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 3,
-                  ),
+        title: const Text(
+          'PAHLAWAN NASIONAL',
+
+          style: TextStyle(
+            fontWeight:
+                FontWeight.bold,
+
+            letterSpacing: 1,
+          ),
+        ),
+      ),
+
+      body: SingleChildScrollView(
+        padding:
+            const EdgeInsets.all(20),
+
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
+
+          children: [
+
+            const SizedBox(height: 5),
+
+            // =================================================
+            // HEADER
+            // =================================================
+
+            Container(
+              width: double.infinity,
+
+              padding:
+                  const EdgeInsets.all(22),
+
+              decoration:
+                  BoxDecoration(
+                color:
+                    const Color(0xFF8B0000),
+
+                borderRadius:
+                    BorderRadius.circular(
+                  18,
                 ),
 
-                const SizedBox(height: 45),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black
+                        .withOpacity(
+                      0.08,
+                    ),
 
-                // SETTING CARD
-                Container(
-                  width: double.infinity,
+                    blurRadius: 10,
 
-                  padding: const EdgeInsets.all(24),
+                    offset:
+                        const Offset(
+                      0,
+                      5,
+                    ),
+                  ),
+                ],
+              ),
 
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF15181D),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: const Color(0xFF292E35),
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment
+                        .start,
+
+                children: [
+
+                  Container(
+                    width: 50,
+                    height: 50,
+
+                    decoration:
+                        BoxDecoration(
+                      color: Colors.white
+                          .withOpacity(
+                        0.15,
+                      ),
+
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                        14,
+                      ),
+                    ),
+
+                    child: const Icon(
+                      Icons
+                          .account_balance,
+
+                      color:
+                          Colors.white,
+
+                      size: 28,
                     ),
                   ),
 
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+                  const Text(
+                    'Mengenal Pahlawan Indonesia',
+
+                    style:
+                        TextStyle(
+                      color:
+                          Colors.white,
+
+                      fontSize: 23,
+
+                      fontWeight:
+                          FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 7,
+                  ),
+
+                  const Text(
+                    'Kenali tokoh-tokoh yang berjasa dalam sejarah perjuangan Indonesia.',
+
+                    style:
+                        TextStyle(
+                      color:
+                          Colors.white70,
+
+                      fontSize: 13,
+
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(
+              height: 25,
+            ),
+
+            // =================================================
+            // JUDUL DAFTAR
+            // =================================================
+
+            Row(
+              crossAxisAlignment:
+                  CrossAxisAlignment.end,
+
+              children: [
+
+                const Expanded(
                   child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment
+                            .start,
+
                     children: [
-                      const Text(
-                        'MAX SCORE',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2,
+
+                      Text(
+                        'Daftar Pahlawan',
+
+                        style:
+                            TextStyle(
+                          fontSize: 23,
+
+                          fontWeight:
+                              FontWeight
+                                  .bold,
                         ),
                       ),
 
-                      const SizedBox(height: 15),
-
-                      // INPUT MAX SCORE
-                      TextField(
-                        controller: maxScoreController,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: const Color(0xFF0B0D10),
-
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // START BUTTON
                       SizedBox(
-                        width: double.infinity,
-                        height: 52,
+                        height: 5,
+                      ),
 
-                        child: ElevatedButton(
-                          onPressed: startGame,
+                      Text(
+                        '15 tokoh perjuangan Indonesia',
 
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFE5B84B),
-                            foregroundColor: Colors.black,
-                            elevation: 0,
+                        style:
+                            TextStyle(
+                          color:
+                              Colors.grey,
 
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-
-                          child: const Text(
-                            'START',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 2,
-                            ),
-                          ),
+                          fontSize: 13,
                         ),
                       ),
                     ],
                   ),
                 ),
+
+                // RESET
+                if (searchQuery
+                        .isNotEmpty ||
+                    selectedRegion !=
+                        'Semua')
+                  TextButton(
+                    onPressed:
+                        resetFilter,
+
+                    child:
+                        const Text(
+                      'Reset',
+                      style:
+                          TextStyle(
+                        color: Color(
+                          0xFF8B0000,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
-          ),
+
+            const SizedBox(
+              height: 15,
+            ),
+
+            // =================================================
+            // SEARCH
+            // =================================================
+
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery =
+                      value;
+                });
+              },
+
+              decoration:
+                  InputDecoration(
+                hintText:
+                    'Cari nama atau daerah asal...',
+
+                prefixIcon:
+                    const Icon(
+                  Icons.search,
+
+                  color:
+                      Color(0xFF8B0000),
+                ),
+
+                suffixIcon:
+                    searchQuery
+                            .isNotEmpty
+                        ? IconButton(
+                            icon:
+                                const Icon(
+                              Icons.clear,
+                            ),
+
+                            onPressed: () {
+                              setState(
+                                () {
+                                  searchQuery =
+                                      '';
+                                },
+                              );
+                            },
+                          )
+                        : null,
+
+                filled: true,
+
+                fillColor:
+                    Colors.white,
+
+                contentPadding:
+                    const EdgeInsets
+                        .symmetric(
+                  vertical: 14,
+
+                  horizontal: 16,
+                ),
+
+                border:
+                    OutlineInputBorder(
+                  borderRadius:
+                      BorderRadius.circular(
+                    14,
+                  ),
+
+                  borderSide:
+                      BorderSide.none,
+                ),
+
+                enabledBorder:
+                    OutlineInputBorder(
+                  borderRadius:
+                      BorderRadius.circular(
+                    14,
+                  ),
+
+                  borderSide:
+                      BorderSide(
+                    color:
+                        Colors.grey
+                            .shade200,
+                  ),
+                ),
+
+                focusedBorder:
+                    OutlineInputBorder(
+                  borderRadius:
+                      BorderRadius.circular(
+                    14,
+                  ),
+
+                  borderSide:
+                      const BorderSide(
+                    color:
+                        Color(0xFF8B0000),
+
+                    width: 1.5,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(
+              height: 15,
+            ),
+
+            // =================================================
+            // FILTER DAERAH
+            // =================================================
+
+            SizedBox(
+              height: 42,
+
+              child: ListView
+                  .separated(
+                scrollDirection:
+                    Axis.horizontal,
+
+                itemCount:
+                    regions.length,
+
+                separatorBuilder:
+                    (context, index) =>
+                        const SizedBox(
+                  width: 8,
+                ),
+
+                itemBuilder:
+                    (context, index) {
+
+                  final region =
+                      regions[index];
+
+                  final isSelected =
+                      selectedRegion ==
+                          region;
+
+                  return ChoiceChip(
+                    label:
+                        Text(region),
+
+                    selected:
+                        isSelected,
+
+                    onSelected:
+                        (selected) {
+                      setState(() {
+                        selectedRegion =
+                            region;
+                      });
+                    },
+
+                    selectedColor:
+                        const Color(
+                      0xFF8B0000,
+                    ),
+
+                    backgroundColor:
+                        Colors.white,
+
+                    labelStyle:
+                        TextStyle(
+                      color:
+                          isSelected
+                              ? Colors.white
+                              : Colors
+                                  .black87,
+
+                      fontWeight:
+                          isSelected
+                              ? FontWeight
+                                  .bold
+                              : FontWeight
+                                  .normal,
+
+                      fontSize: 12,
+                    ),
+
+                    side:
+                        BorderSide(
+                      color:
+                          isSelected
+                              ? const Color(
+                                  0xFF8B0000,
+                                )
+                              : Colors
+                                  .grey
+                                  .shade300,
+                    ),
+
+                    shape:
+                        RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                        20,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(
+              height: 15,
+            ),
+
+            // =================================================
+            // JUMLAH HASIL
+            // =================================================
+
+            Text(
+              '${filtered.length} pahlawan',
+
+              style:
+                  const TextStyle(
+                color:
+                    Colors.grey,
+
+                fontSize: 13,
+              ),
+            ),
+
+            const SizedBox(
+              height: 10,
+            ),
+
+            // =================================================
+            // TIDAK ADA HASIL
+            // =================================================
+
+            if (filtered.isEmpty)
+              Container(
+                width:
+                    double.infinity,
+
+                padding:
+                    const EdgeInsets
+                        .symmetric(
+                  vertical: 50,
+
+                  horizontal: 20,
+                ),
+
+                decoration:
+                    BoxDecoration(
+                  color:
+                      Colors.white,
+
+                  borderRadius:
+                      BorderRadius
+                          .circular(
+                    16,
+                  ),
+                ),
+
+                child:
+                    const Column(
+                  children: [
+
+                    Icon(
+                      Icons.search_off,
+
+                      size: 55,
+
+                      color:
+                          Colors.grey,
+                    ),
+
+                    SizedBox(
+                      height: 12,
+                    ),
+
+                    Text(
+                      'Pahlawan tidak ditemukan',
+
+                      style:
+                          TextStyle(
+                        fontSize: 16,
+
+                        fontWeight:
+                            FontWeight
+                                .bold,
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 5,
+                    ),
+
+                    Text(
+                      'Coba gunakan kata kunci atau daerah lain.',
+
+                      style:
+                          TextStyle(
+                        color:
+                            Colors.grey,
+
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // =================================================
+            // GRID PAHLAWAN
+            // =================================================
+
+            if (filtered.isNotEmpty)
+              GridView.builder(
+                shrinkWrap: true,
+
+                physics:
+                    const NeverScrollableScrollPhysics(),
+
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+
+                  crossAxisSpacing: 12,
+
+                  mainAxisSpacing: 12,
+
+                  // Tinggi card tetap
+                  mainAxisExtent: 215,
+                ),
+
+                itemCount:
+                    filtered.length,
+
+                itemBuilder:
+                    (context, index) {
+
+                  final hero =
+                      filtered[index];
+
+                  return _HeroCard(
+                    hero: hero,
+
+                    onTap: () {
+                      Navigator.push(
+                        context,
+
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  DetailPage(
+                            hero: hero,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+
+            const SizedBox(
+              height: 20,
+            ),
+          ],
         ),
       ),
     );
@@ -196,480 +877,662 @@ class _SettingPageState extends State<SettingPage> {
 }
 
 // =====================================================
-// SCORE PAGE
+// HERO CARD
 // =====================================================
 
-class ScorePage extends StatefulWidget {
-  final int maxScore;
+class _HeroCard
+    extends StatefulWidget {
 
-  const ScorePage({
-    super.key,
-    required this.maxScore,
+  final HeroData hero;
+
+  final VoidCallback onTap;
+
+  const _HeroCard({
+    required this.hero,
+    required this.onTap,
   });
 
   @override
-  State<ScorePage> createState() => _ScorePageState();
+  State<_HeroCard> createState() =>
+      _HeroCardState();
 }
 
-class _ScorePageState extends State<ScorePage> {
-  int player1Score = 0;
-  int player2Score = 0;
+class _HeroCardState
+    extends State<_HeroCard> {
 
-  bool gameFinished = false;
-
-  // ===================================================
-  // ADD POINT
-  // ===================================================
-
-  void addPoint(int player) {
-    if (gameFinished) {
-      return;
-    }
-
-    setState(() {
-      if (player == 1) {
-        player1Score++;
-      } else {
-        player2Score++;
-      }
-
-      // CHECK WINNER
-      if (player1Score >= widget.maxScore ||
-          player2Score >= widget.maxScore) {
-        gameFinished = true;
-      }
-    });
-  }
-
-  // ===================================================
-  // RESET GAME
-  // ===================================================
-
-  void resetGame() {
-    setState(() {
-      player1Score = 0;
-      player2Score = 0;
-      gameFinished = false;
-    });
-  }
-
-  // ===================================================
-  // GET WINNER
-  // ===================================================
-
-  String getWinner() {
-    if (player1Score >= widget.maxScore) {
-      return 'PLAYER 1';
-    }
-
-    return 'PLAYER 2';
-  }
-
-  // ===================================================
-  // MAIN UI
-  // ===================================================
+  bool isHovering = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0B0D10),
+  Widget build(
+      BuildContext context) {
 
-      // =================================================
-      // APP BAR
-      // =================================================
+    return MouseRegion(
+      cursor:
+          SystemMouseCursors.click,
 
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0B0D10),
+      onEnter: (_) {
+        setState(() {
+          isHovering = true;
+        });
+      },
 
-        centerTitle: true,
+      onExit: (_) {
+        setState(() {
+          isHovering = false;
+        });
+      },
 
-        // Tombol BACK otomatis muncul
-        title: const Text(
-          'SCORE MATCH',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2,
-          ),
-        ),
-      ),
-
-      // =================================================
-      // BODY
-      // =================================================
-
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-
-        child: gameFinished
-            ? buildWinnerScreen()
-            : buildScoreboard(),
-      ),
-    );
-  }
-
-  // =====================================================
-  // SCOREBOARD
-  // =====================================================
-
-  Widget buildScoreboard() {
-    return Column(
-      children: [
-        // MAX SCORE
-        Text(
-          'MAX ${widget.maxScore}',
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2,
-          ),
+      child: AnimatedContainer(
+        duration:
+            const Duration(
+          milliseconds: 180,
         ),
 
-        const SizedBox(height: 18),
-
-        // PLAYERS
-        Expanded(
-          child: Row(
-            children: [
-              // =========================================
-              // PLAYER 1
-              // =========================================
-
-              Expanded(
-                child: buildPlayer(
-                  name: 'PLAYER 1',
-
-                  score: player1Score,
-
-                  color: const Color(0xFF3B82F6),
-
-                  onPressed: () => addPoint(1),
-                ),
-              ),
-
-              // =========================================
-              // PEMISAH
-              // =========================================
-
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-
-                child: Text(
-                  ':',
-
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-
-              // =========================================
-              // PLAYER 2
-              // =========================================
-
-              Expanded(
-                child: buildPlayer(
-                  name: 'PLAYER 2',
-
-                  score: player2Score,
-
-                  color: const Color(0xFFEF4444),
-
-                  onPressed: () => addPoint(2),
-                ),
-              ),
-            ],
-          ),
+        transform:
+            Matrix4.translationValues(
+          0,
+          isHovering ? -4 : 0,
+          0,
         ),
 
-        const SizedBox(height: 15),
+        child: Material(
+          color:
+              Colors.transparent,
 
-        // RESET
-        SizedBox(
-          width: double.infinity,
-          height: 45,
-
-          child: OutlinedButton(
-            onPressed: resetGame,
-
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.grey,
-
-              side: const BorderSide(
-                color: Color(0xFF30343A),
-              ),
-
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+          child: InkWell(
+            borderRadius:
+                BorderRadius.circular(
+              14,
             ),
 
-            child: const Text(
-              'RESET',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+            onTap:
+                widget.onTap,
 
-  // =====================================================
-  // WINNER SCREEN
-  // =====================================================
+            child: Container(
+              decoration:
+                  BoxDecoration(
+                color:
+                    Colors.white,
 
-  Widget buildWinnerScreen() {
-    final bool player1Won =
-        player1Score >= widget.maxScore;
-
-    final Color winnerColor = player1Won
-        ? const Color(0xFF3B82F6)
-        : const Color(0xFFEF4444);
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-
-        children: [
-          // TROPHY
-          const Icon(
-            Icons.emoji_events_rounded,
-
-            size: 90,
-
-            color: Color(0xFFE5B84B),
-          ),
-
-          const SizedBox(height: 25),
-
-          // WINNER
-          const Text(
-            'WINNER',
-
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 4,
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // PLAYER NAME
-          Text(
-            getWinner(),
-
-            style: TextStyle(
-              color: winnerColor,
-              fontSize: 36,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 2,
-            ),
-          ),
-
-          const SizedBox(height: 30),
-
-          // FINAL SCORE
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 35,
-              vertical: 22,
-            ),
-
-            decoration: BoxDecoration(
-              color: const Color(0xFF15181D),
-
-              borderRadius: BorderRadius.circular(10),
-
-              border: Border.all(
-                color: const Color(0xFF292E35),
-              ),
-            ),
-
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-
-              children: [
-                // PLAYER 1 SCORE
-                Text(
-                  '$player1Score',
-
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 48,
-                    fontWeight: FontWeight.w900,
-                  ),
+                borderRadius:
+                    BorderRadius.circular(
+                  14,
                 ),
 
-                // :
-                const Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25,
-                  ),
+                border:
+                    Border.all(
+                  color:
+                      isHovering
+                          ? const Color(
+                              0xFF8B0000,
+                            )
+                          : Colors
+                              .grey
+                              .shade200,
+                ),
 
-                  child: Text(
-                    ':',
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black
+                        .withOpacity(
+                      isHovering
+                          ? 0.12
+                          : 0.04,
+                    ),
 
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
+                    blurRadius:
+                        isHovering
+                            ? 12
+                            : 6,
+
+                    offset:
+                        const Offset(
+                      0,
+                      3,
                     ),
                   ),
-                ),
+                ],
+              ),
 
-                // PLAYER 2 SCORE
-                Text(
-                  '$player2Score',
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment
+                        .start,
 
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 48,
-                    fontWeight: FontWeight.w900,
+                children: [
+
+                  // =========================================
+                  // FOTO
+                  // =========================================
+
+                  SizedBox(
+                    height: 125,
+
+                    width:
+                        double.infinity,
+
+                    child: ClipRRect(
+                      borderRadius:
+                          const BorderRadius
+                              .vertical(
+                        top: Radius
+                            .circular(
+                          14,
+                        ),
+                      ),
+
+                      child: Container(
+                        color:
+                            const Color(
+                          0xFFF0F0F0,
+                        ),
+
+                        child:
+                            Image.asset(
+                          widget.hero
+                              .image,
+
+                          width:
+                              double.infinity,
+
+                          height:
+                              double.infinity,
+
+                          // Foto utuh
+                          fit:
+                              BoxFit.contain,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ],
+
+                  // =========================================
+                  // INFORMASI
+                  // =========================================
+
+                  Padding(
+                    padding:
+                        const EdgeInsets
+                            .all(8),
+
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+
+                      children: [
+
+                        Row(
+                          children: [
+
+                            Expanded(
+                              child:
+                                  Text(
+                                widget.hero
+                                    .name,
+
+                                maxLines:
+                                    1,
+
+                                overflow:
+                                    TextOverflow
+                                        .ellipsis,
+
+                                style:
+                                    const TextStyle(
+                                  fontWeight:
+                                      FontWeight
+                                          .bold,
+
+                                  fontSize:
+                                      13,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(
+                              width: 4,
+                            ),
+
+                            Icon(
+                              Icons
+                                  .arrow_forward_ios,
+
+                              size: 10,
+
+                              color:
+                                  isHovering
+                                      ? const Color(
+                                          0xFF8B0000,
+                                        )
+                                      : Colors
+                                          .grey,
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(
+                          height: 4,
+                        ),
+
+                        Row(
+                          children: [
+
+                            const Icon(
+                              Icons
+                                  .location_on,
+
+                              size: 11,
+
+                              color:
+                                  Color(
+                                0xFF8B0000,
+                              ),
+                            ),
+
+                            const SizedBox(
+                              width: 3,
+                            ),
+
+                            Expanded(
+                              child:
+                                  Text(
+                                widget.hero
+                                    .origin,
+
+                                maxLines:
+                                    1,
+
+                                overflow:
+                                    TextOverflow
+                                        .ellipsis,
+
+                                style:
+                                    const TextStyle(
+                                  color:
+                                      Colors
+                                          .grey,
+
+                                  fontSize:
+                                      10,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(
+                          height: 2,
+                        ),
+
+                        Row(
+                          children: [
+
+                            const Icon(
+                              Icons
+                                  .calendar_today,
+
+                              size: 10,
+
+                              color:
+                                  Color(
+                                0xFF8B0000,
+                              ),
+                            ),
+
+                            const SizedBox(
+                              width: 3,
+                            ),
+
+                            Text(
+                              widget.hero
+                                  .lifetime,
+
+                              style:
+                                  const TextStyle(
+                                color:
+                                    Colors
+                                        .grey,
+
+                                fontSize:
+                                    10,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
 
-          const SizedBox(height: 45),
+// =====================================================
+// DETAIL PAHLAWAN
+// =====================================================
 
-          // MAIN LAGI
-          SizedBox(
-            width: 220,
-            height: 52,
+class DetailPage
+    extends StatelessWidget {
 
-            child: ElevatedButton(
-              onPressed: resetGame,
+  final HeroData hero;
 
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE5B84B),
-                foregroundColor: Colors.black,
-                elevation: 0,
+  const DetailPage({
+    super.key,
+    required this.hero,
+  });
 
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
+  @override
+  Widget build(
+      BuildContext context) {
 
-              child: const Text(
-                'MAIN LAGI',
+    return Scaffold(
+      appBar:
+          AppBar(
+        title:
+            const Text(
+          'Detail Pahlawan',
 
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
-                ),
+          style:
+              TextStyle(
+            fontWeight:
+                FontWeight.bold,
+          ),
+        ),
+      ),
+
+      body:
+          SingleChildScrollView(
+        child:
+            Column(
+          crossAxisAlignment:
+              CrossAxisAlignment
+                  .start,
+
+          children: [
+
+            // =================================================
+            // FOTO DETAIL
+            // =================================================
+
+            Container(
+              width:
+                  double.infinity,
+
+              height:
+                  400,
+
+              color:
+                  Colors.white,
+
+              child:
+                  Image.asset(
+                hero.image,
+
+                // Tidak crop
+                fit:
+                    BoxFit.contain,
               ),
             ),
-          ),
 
-          const SizedBox(height: 10),
+            // =================================================
+            // INFORMASI
+            // =================================================
 
-          // RESET
-          TextButton(
-            onPressed: resetGame,
+            Padding(
+              padding:
+                  const EdgeInsets
+                      .all(20),
 
-            child: const Text(
-              'RESET',
+              child:
+                  Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment
+                        .start,
 
-              style: TextStyle(
-                color: Colors.grey,
+                children: [
+
+                  Text(
+                    hero.name,
+
+                    style:
+                        const TextStyle(
+                      fontSize:
+                          28,
+
+                      fontWeight:
+                          FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height:
+                        18,
+                  ),
+
+                  // =========================================
+                  // ASAL + LIFE TIME
+                  // =========================================
+
+                  Row(
+                    children: [
+
+                      Expanded(
+                        child:
+                            _InfoBox(
+                          icon:
+                              Icons
+                                  .location_on,
+
+                          title:
+                              'Asal',
+
+                          value:
+                              hero.origin,
+                        ),
+                      ),
+
+                      const SizedBox(
+                        width:
+                            12,
+                      ),
+
+                      Expanded(
+                        child:
+                            _InfoBox(
+                          icon:
+                              Icons
+                                  .calendar_today,
+
+                          title:
+                              'Life Time',
+
+                          value:
+                              hero.lifetime,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height:
+                        28,
+                  ),
+
+                  // =========================================
+                  // BIOGRAFI
+                  // =========================================
+
+                  const Text(
+                    'Biografi Singkat',
+
+                    style:
+                        TextStyle(
+                      fontSize:
+                          20,
+
+                      fontWeight:
+                          FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height:
+                        10,
+                  ),
+
+                  Text(
+                    hero.biography,
+
+                    style:
+                        const TextStyle(
+                      fontSize:
+                          16,
+
+                      height:
+                          1.6,
+
+                      color:
+                          Colors.black87,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height:
+                        20,
+                  ),
+                ],
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// =====================================================
+// INFO BOX
+// =====================================================
+
+class _InfoBox
+    extends StatelessWidget {
+
+  final IconData icon;
+
+  final String title;
+
+  final String value;
+
+  const _InfoBox({
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(
+      BuildContext context) {
+
+    return Container(
+      padding:
+          const EdgeInsets.all(
+        14,
+      ),
+
+      decoration:
+          BoxDecoration(
+        color:
+            Colors.white,
+
+        borderRadius:
+            BorderRadius.circular(
+          12,
+        ),
+
+        border:
+            Border.all(
+          color:
+              Colors.grey.shade200,
+        ),
+
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black
+                .withOpacity(
+              0.03,
+            ),
+
+            blurRadius:
+                5,
+
+            offset:
+                const Offset(
+              0,
+              2,
             ),
           ),
         ],
       ),
-    );
-  }
 
-  // =====================================================
-  // PLAYER CARD
-  // =====================================================
+      child:
+          Column(
+        crossAxisAlignment:
+            CrossAxisAlignment
+                .start,
 
-  Widget buildPlayer({
-    required String name,
-    required int score,
-    required Color color,
-    required VoidCallback onPressed,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-
-      decoration: BoxDecoration(
-        color: const Color(0xFF15181D),
-
-        borderRadius: BorderRadius.circular(10),
-
-        border: Border.all(
-          color: const Color(0xFF292E35),
-        ),
-      ),
-
-      child: Column(
         children: [
-          // PLAYER NAME
-          Text(
-            name,
 
-            style: TextStyle(
-              color: color,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1,
+          Icon(
+            icon,
+
+            color:
+                const Color(
+              0xFF8B0000,
+            ),
+
+            size:
+                22,
+          ),
+
+          const SizedBox(
+            height:
+                8,
+          ),
+
+          Text(
+            title,
+
+            style:
+                const TextStyle(
+              fontSize:
+                  12,
+
+              color:
+                  Colors.grey,
             ),
           ),
 
-          const Spacer(),
-
-          // SCORE
-          Text(
-            '$score',
-
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 80,
-              fontWeight: FontWeight.w900,
-            ),
+          const SizedBox(
+            height:
+                3,
           ),
 
-          const Spacer(),
+          Text(
+            value,
 
-          // +1 BUTTON
-          SizedBox(
-            width: double.infinity,
-            height: 55,
+            style:
+                const TextStyle(
+              fontWeight:
+                  FontWeight.bold,
 
-            child: ElevatedButton(
-              onPressed: onPressed,
-
-              style: ElevatedButton.styleFrom(
-                backgroundColor: color,
-                foregroundColor: Colors.white,
-                elevation: 0,
-
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7),
-                ),
-              ),
-
-              child: const Text(
-                '+1',
-
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              fontSize:
+                  14,
             ),
           ),
         ],
